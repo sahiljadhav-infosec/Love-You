@@ -11,37 +11,33 @@ body {
   margin: 0;
   overflow: hidden;
   font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at 20% 30%, #5a002d, #2b0018 60%);
+  background: linear-gradient(-45deg, #ff3366, #ff4d88, #ff1a75, #ff66b2);
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease infinite;
   transition: transform 0.6s ease;
-  position: relative;
   color: white;
+  position: relative;
 }
 
-/* Moving romantic light */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Soft glowing overlay */
 body::before {
   content: "";
   position: fixed;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,0,120,0.15) 0%, transparent 60%);
-  animation: moveLight 18s linear infinite;
+  inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), transparent 60%);
+  animation: glowMove 10s ease-in-out infinite;
   z-index: 0;
 }
 
-@keyframes moveLight {
-  0% { transform: translate(-20%, -20%); }
-  50% { transform: translate(20%, 20%); }
-  100% { transform: translate(-20%, -20%); }
-}
-
-/* Dark vignette */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at center, transparent 55%, rgba(0,0,0,0.75) 100%);
-  z-index: 1;
-  pointer-events: none;
+@keyframes glowMove {
+  0%,100% { transform: translate(0,0); }
+  50% { transform: translate(30px, 30px); }
 }
 
 body.zoom { transform: scale(1.05); }
@@ -61,7 +57,7 @@ canvas {
   top: 0;
   left: 0;
   pointer-events: none;
-  z-index: 2;
+  z-index: 1;
 }
 
 .glow-name {
@@ -70,31 +66,31 @@ canvas {
   width: 100%;
   font-size: 110px;
   font-family: 'Playfair Display', serif;
-  color: rgba(255, 255, 255, 0.04);
-  animation: pulse 4s ease-in-out infinite;
-  z-index: 2;
+  color: rgba(255, 255, 255, 0.07);
+  animation: pulse 3.5s ease-in-out infinite;
+  z-index: 1;
 }
 
 @keyframes pulse {
-  0%,100% { text-shadow: 0 0 40px #ff4da6; }
-  50% { text-shadow: 0 0 100px #ff66b2; }
+  0%,100% { text-shadow: 0 0 40px white; }
+  50% { text-shadow: 0 0 100px #ffe6f2; }
 }
 
 .container {
   margin-top: 90px;
   position: relative;
-  z-index: 3;
+  z-index: 2;
 }
 
 h1 {
   font-family: 'Playfair Display', serif;
-  font-size: 40px;
-  color: #ff80bf;
+  font-size: 42px;
+  text-shadow: 0 0 20px rgba(255,255,255,0.6);
 }
 
 h2 {
   font-weight: 300;
-  color: #ffcce6;
+  color: #ffe6f2;
 }
 
 button {
@@ -108,8 +104,9 @@ button {
 }
 
 #yesBtn {
-  background: linear-gradient(45deg, #ff3366, #ff66b2);
-  color: white;
+  background: white;
+  color: #ff3366;
+  font-weight: 500;
 }
 
 #yesBtn:hover {
@@ -117,18 +114,17 @@ button {
 }
 
 #noBtn {
-  background: #888;
+  background: rgba(0,0,0,0.4);
   color: white;
-  position: relative;
 }
 
 #message {
   font-family: 'Great Vibes', cursive;
-  font-size: 70px;
+  font-size: 75px;
   margin-top: 50px;
   display: none;
-  color: #ff99cc;
   animation: explode 1.3s ease-out forwards;
+  text-shadow: 0 0 25px white;
 }
 
 @keyframes explode {
@@ -158,21 +154,18 @@ button {
 </div>
 
 <script>
-// Day Counter
 const startDate = new Date("January 16, 2018");
 const today = new Date();
 const diffDays = Math.floor((today - startDate) / (1000*60*60*24));
 document.getElementById("dayCounter").innerHTML =
   "We have been together for " + diffDays + " Beautiful Days 💖";
 
-// No Button Behavior
 let noClickCount = 0;
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 
 function handleNo() {
   noClickCount++;
-
   const texts = [
     "Are you sure?",
     "Think again Shiu 😌",
@@ -180,19 +173,10 @@ function handleNo() {
     "Wrong choice 😏",
     "Nice try ❤️"
   ];
-
   noBtn.innerText = texts[noClickCount % texts.length];
-
   noBtn.style.transform = `scale(${1 - noClickCount*0.1})`;
-
-  if (noClickCount % 2 === 0) {
-    let temp = yesBtn.innerHTML;
-    yesBtn.innerHTML = noBtn.innerHTML;
-    noBtn.innerHTML = temp;
-  }
 }
 
-// Yes Clicked
 function yesClicked() {
   document.body.classList.add("zoom");
   setTimeout(() => document.body.classList.add("shake"), 300);
@@ -202,7 +186,6 @@ function yesClicked() {
   }, 700);
 }
 
-// Fireworks
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
@@ -213,7 +196,6 @@ function startFireworks() {
   setInterval(() => {
     let x = Math.random() * canvas.width;
     let y = Math.random() * canvas.height / 2;
-
     for (let i = 0; i < 100; i++) {
       particles.push({
         x: x,
@@ -229,19 +211,17 @@ function startFireworks() {
 
 function animate() {
   requestAnimationFrame(animate);
-  ctx.fillStyle = "rgba(43, 0, 24, 0.25)";
+  ctx.fillStyle = "rgba(255, 0, 80, 0.15)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   particles.forEach((p, index) => {
     p.x += Math.cos(p.angle) * p.speed;
     p.y += Math.sin(p.angle) * p.speed;
     p.radius *= 0.96;
-
     ctx.beginPath();
     ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
     ctx.fillStyle = p.color;
     ctx.fill();
-
     if (p.radius < 0.5) particles.splice(index, 1);
   });
 }
