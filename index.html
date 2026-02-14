@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Relationship Test</title>
+<title>Shiu's Love License 💖</title>
 <style>
 body {
   text-align: center;
-  font-family: Arial;
-  background-color: #ffe6f0;
+  font-family: 'Arial';
+  background: linear-gradient(to right, #ffccd5, #ffe6f0);
+  overflow: hidden;
 }
 
 .container {
-  margin-top: 100px;
+  margin-top: 80px;
+}
+
+h1 {
+  font-size: 40px;
+  color: #ff3366;
+}
+
+h2 {
+  color: #cc0052;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 12px 25px;
   font-size: 18px;
-  margin: 10px;
+  margin: 15px;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 20px;
   border: none;
+  transition: 0.3s;
 }
 
 #yesBtn {
@@ -27,10 +38,20 @@ button {
   color: white;
 }
 
+#yesBtn:hover {
+  transform: scale(1.1);
+}
+
 #noBtn {
   background-color: grey;
   color: white;
   position: absolute;
+}
+
+#message {
+  font-size: 22px;
+  color: #990033;
+  margin-top: 20px;
 }
 </style>
 </head>
@@ -38,11 +59,12 @@ button {
 <body>
 
 <div class="container">
-<h1>Relationship Compatibility Test 💖</h1>
+<h1>💖 Welcome Shiu 💖</h1>
+<h2>This is your Official Love Verification Portal</h2>
 <p>Final Question:</p>
-<h2>Do you love me forever? 🥺</h2>
+<h2>Shiu, do you promise to love Sahil forever? 🥺❤️</h2>
 
-<button id="yesBtn" onclick="yesClicked()">Yes ❤️</button>
+<button id="yesBtn" onclick="yesClicked()">Yes obviously 😌💘</button>
 <button id="noBtn" onmouseover="moveButton()">No 😏</button>
 
 <p id="message"></p>
@@ -51,15 +73,38 @@ button {
 <script>
 function moveButton() {
   var button = document.getElementById("noBtn");
-  var x = Math.random() * window.innerWidth;
-  var y = Math.random() * window.innerHeight;
+  var x = Math.random() * (window.innerWidth - 100);
+  var y = Math.random() * (window.innerHeight - 100);
   button.style.left = x + "px";
   button.style.top = y + "px";
 }
 
 function yesClicked() {
   document.getElementById("message").innerHTML =
-    "I knew it 😌❤️ I love you more than anything in this world. You are my favorite human forever.";
+    "I knew it, Shiu 😌❤️ You are my favorite person in this entire universe. I love you more every single day. Forever is too small with you 💍✨";
+    
+  startHearts();
+}
+
+function startHearts() {
+  setInterval(function() {
+    var heart = document.createElement("div");
+    heart.innerHTML = "💖";
+    heart.style.position = "absolute";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.top = "-20px";
+    heart.style.fontSize = "24px";
+    document.body.appendChild(heart);
+
+    setTimeout(function() {
+      heart.style.top = window.innerHeight + "px";
+    }, 100);
+
+    setTimeout(function() {
+      heart.remove();
+    }, 3000);
+
+  }, 300);
 }
 </script>
 
