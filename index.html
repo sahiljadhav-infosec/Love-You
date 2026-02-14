@@ -11,36 +11,33 @@ body {
   margin: 0;
   overflow: hidden;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #b24592, #f15f79);
-  background-attachment: fixed;
+  background: linear-gradient(135deg, #ffb7a5, #ffc8dd, #cdb4db);
+  background-size: 300% 300%;
+  animation: gradientMove 18s ease infinite;
   transition: transform 0.6s ease;
-  color: #fff;
+  color: #5a3e4d;
   position: relative;
 }
 
-/* Soft overlay for eye comfort */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Soft sunset glow */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.25);
-  z-index: 0;
-}
-
-/* Subtle moving light */
-body::after {
-  content: "";
-  position: fixed;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 60%);
-  animation: floatLight 18s ease-in-out infinite;
+  background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.25), transparent 60%);
+  animation: floatLight 20s ease-in-out infinite;
   z-index: 0;
 }
 
 @keyframes floatLight {
-  0%,100% { transform: translate(-10%, -10%); }
-  50% { transform: translate(10%, 10%); }
+  0%,100% { transform: translate(-20px, -20px); }
+  50% { transform: translate(20px, 20px); }
 }
 
 body.zoom { transform: scale(1.05); }
@@ -66,15 +63,15 @@ canvas {
   position: fixed;
   top: 40%;
   width: 100%;
-  font-size: 100px;
+  font-size: 110px;
   font-family: 'Playfair Display', serif;
-  color: rgba(255, 255, 255, 0.05);
-  animation: pulse 4s ease-in-out infinite;
+  color: rgba(255, 255, 255, 0.2);
+  animation: pulse 5s ease-in-out infinite;
   z-index: 1;
 }
 
 @keyframes pulse {
-  0%,100% { text-shadow: 0 0 25px rgba(255,255,255,0.4); }
+  0%,100% { text-shadow: 0 0 20px rgba(255,255,255,0.3); }
   50% { text-shadow: 0 0 60px rgba(255,255,255,0.6); }
 }
 
@@ -88,11 +85,12 @@ h1 {
   font-family: 'Playfair Display', serif;
   font-size: 42px;
   margin-bottom: 10px;
+  color: #6d4c6d;
 }
 
 h2 {
   font-weight: 300;
-  color: #ffe6f2;
+  color: #7a5c7a;
 }
 
 button {
@@ -107,8 +105,9 @@ button {
 
 #yesBtn {
   background: #ffffff;
-  color: #b24592;
+  color: #c06c84;
   font-weight: 500;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 #yesBtn:hover {
@@ -116,16 +115,17 @@ button {
 }
 
 #noBtn {
-  background: rgba(255,255,255,0.3);
-  color: white;
+  background: rgba(255,255,255,0.4);
+  color: #6d4c6d;
 }
 
 #message {
   font-family: 'Great Vibes', cursive;
-  font-size: 70px;
+  font-size: 75px;
   margin-top: 50px;
   display: none;
   animation: explode 1.3s ease-out forwards;
+  color: #b56576;
 }
 
 @keyframes explode {
@@ -142,7 +142,7 @@ button {
 <canvas id="fireworks"></canvas>
 
 <div class="container">
-<h1>Happy 9th Valentine Shiu 🌹</h1>
+<h1>Happy 9th Valentine Shiu 🌅</h1>
 <h2 id="dayCounter"></h2>
 <h2>Will you always be my forever Valentine? 💘</h2>
 
@@ -194,17 +194,17 @@ function startFireworks() {
   setInterval(() => {
     let x = Math.random() * canvas.width;
     let y = Math.random() * canvas.height / 2;
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < 70; i++) {
       particles.push({
         x: x,
         y: y,
         angle: Math.random() * 2 * Math.PI,
-        speed: Math.random() * 4 + 2,
+        speed: Math.random() * 3 + 2,
         radius: 2,
-        color: `hsl(${Math.random()*360},100%,70%)`
+        color: `hsl(${Math.random()*360},70%,75%)`
       });
     }
-  }, 900);
+  }, 1000);
 }
 
 function animate() {
