@@ -3,7 +3,6 @@
 <head>
 <title>Shiu ❤️ Sahil – 9th Valentine</title>
 
-<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
@@ -12,16 +11,37 @@ body {
   margin: 0;
   overflow: hidden;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(-45deg, #ffccd5, #ffe6f0, #ffd6e0, #ffc2d1);
-  background-size: 400% 400%;
-  animation: gradientMove 15s ease infinite;
+  background: radial-gradient(circle at 20% 30%, #5a002d, #2b0018 60%);
   transition: transform 0.6s ease;
+  position: relative;
+  color: white;
 }
 
-@keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Moving romantic light */
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,0,120,0.15) 0%, transparent 60%);
+  animation: moveLight 18s linear infinite;
+  z-index: 0;
+}
+
+@keyframes moveLight {
+  0% { transform: translate(-20%, -20%); }
+  50% { transform: translate(20%, 20%); }
+  100% { transform: translate(-20%, -20%); }
+}
+
+/* Dark vignette */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 55%, rgba(0,0,0,0.75) 100%);
+  z-index: 1;
+  pointer-events: none;
 }
 
 body.zoom { transform: scale(1.05); }
@@ -41,39 +61,40 @@ canvas {
   top: 0;
   left: 0;
   pointer-events: none;
+  z-index: 2;
 }
 
 .glow-name {
   position: fixed;
   top: 40%;
   width: 100%;
-  font-size: 100px;
+  font-size: 110px;
   font-family: 'Playfair Display', serif;
-  color: rgba(255, 0, 100, 0.07);
+  color: rgba(255, 255, 255, 0.04);
   animation: pulse 4s ease-in-out infinite;
-  z-index: 0;
+  z-index: 2;
 }
 
 @keyframes pulse {
-  0%,100% { text-shadow: 0 0 20px #ff4da6; }
-  50% { text-shadow: 0 0 60px #ff66b2; }
+  0%,100% { text-shadow: 0 0 40px #ff4da6; }
+  50% { text-shadow: 0 0 100px #ff66b2; }
 }
 
 .container {
-  margin-top: 80px;
+  margin-top: 90px;
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
 h1 {
   font-family: 'Playfair Display', serif;
-  font-size: 38px;
-  color: #b30059;
+  font-size: 40px;
+  color: #ff80bf;
 }
 
 h2 {
   font-weight: 300;
-  color: #800040;
+  color: #ffcce6;
 }
 
 button {
@@ -87,7 +108,7 @@ button {
 }
 
 #yesBtn {
-  background: #ff3366;
+  background: linear-gradient(45deg, #ff3366, #ff66b2);
   color: white;
 }
 
@@ -96,18 +117,18 @@ button {
 }
 
 #noBtn {
-  background: #999;
+  background: #888;
   color: white;
   position: relative;
 }
 
 #message {
   font-family: 'Great Vibes', cursive;
-  font-size: 60px;
-  color: #cc0052;
-  margin-top: 40px;
+  font-size: 70px;
+  margin-top: 50px;
   display: none;
-  animation: explode 1.2s ease-out forwards;
+  color: #ff99cc;
+  animation: explode 1.3s ease-out forwards;
 }
 
 @keyframes explode {
@@ -137,14 +158,14 @@ button {
 </div>
 
 <script>
-// DAY COUNTER
+// Day Counter
 const startDate = new Date("January 16, 2018");
 const today = new Date();
 const diffDays = Math.floor((today - startDate) / (1000*60*60*24));
 document.getElementById("dayCounter").innerHTML =
   "We have been together for " + diffDays + " Beautiful Days 💖";
 
-// NO BUTTON LOGIC
+// No Button Behavior
 let noClickCount = 0;
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
@@ -164,20 +185,14 @@ function handleNo() {
 
   noBtn.style.transform = `scale(${1 - noClickCount*0.1})`;
 
-  // Occasionally swap buttons
   if (noClickCount % 2 === 0) {
-    let yesRect = yesBtn.getBoundingClientRect();
-    let noRect = noBtn.getBoundingClientRect();
-
-    yesBtn.style.position = "relative";
-    noBtn.style.position = "relative";
-
-    yesBtn.style.left = noRect.left - yesRect.left + "px";
-    noBtn.style.left = yesRect.left - noRect.left + "px";
+    let temp = yesBtn.innerHTML;
+    yesBtn.innerHTML = noBtn.innerHTML;
+    noBtn.innerHTML = temp;
   }
 }
 
-// YES CLICKED
+// Yes Clicked
 function yesClicked() {
   document.body.classList.add("zoom");
   setTimeout(() => document.body.classList.add("shake"), 300);
@@ -187,7 +202,7 @@ function yesClicked() {
   }, 700);
 }
 
-// FIREWORKS
+// Fireworks
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
@@ -214,7 +229,7 @@ function startFireworks() {
 
 function animate() {
   requestAnimationFrame(animate);
-  ctx.fillStyle = "rgba(255, 182, 193, 0.2)";
+  ctx.fillStyle = "rgba(43, 0, 24, 0.25)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   particles.forEach((p, index) => {
