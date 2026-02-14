@@ -3,30 +3,37 @@
 <head>
 <title>Shiu ❤️ Sahil – 9th Valentine</title>
 
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
 <style>
 body {
   text-align: center;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(to right, #ffb6c1, #ffe6f0);
   margin: 0;
   overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(-45deg, #ffccd5, #ffe6f0, #ffd6e0, #ffc2d1);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
   transition: transform 0.6s ease;
 }
 
-body.zoom {
-  transform: scale(1.05);
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-body.shake {
-  animation: shake 0.4s;
-}
+body.zoom { transform: scale(1.05); }
+
+body.shake { animation: shake 0.4s; }
 
 @keyframes shake {
-  0% { transform: translate(2px, 2px); }
-  25% { transform: translate(-2px, -2px); }
-  50% { transform: translate(2px, -2px); }
-  75% { transform: translate(-2px, 2px); }
-  100% { transform: translate(0px, 0px); }
+  0% { transform: translate(2px,2px); }
+  25% { transform: translate(-2px,-2px); }
+  50% { transform: translate(2px,-2px); }
+  75% { transform: translate(-2px,2px); }
+  100% { transform: translate(0,0); }
 }
 
 canvas {
@@ -40,41 +47,47 @@ canvas {
   position: fixed;
   top: 40%;
   width: 100%;
-  font-size: 90px;
-  font-weight: bold;
-  color: rgba(255, 0, 100, 0.08);
-  text-shadow: 0 0 25px #ff4da6, 0 0 50px #ff66b2;
+  font-size: 100px;
+  font-family: 'Playfair Display', serif;
+  color: rgba(255, 0, 100, 0.07);
+  animation: pulse 4s ease-in-out infinite;
   z-index: 0;
+}
+
+@keyframes pulse {
+  0%,100% { text-shadow: 0 0 20px #ff4da6; }
+  50% { text-shadow: 0 0 60px #ff66b2; }
 }
 
 .container {
   margin-top: 80px;
-  padding: 20px;
   position: relative;
   z-index: 2;
 }
 
 h1 {
-  font-size: 34px;
-  color: #d1005d;
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
+  color: #b30059;
 }
 
 h2 {
-  color: #99004d;
+  font-weight: 300;
+  color: #800040;
 }
 
 button {
-  padding: 12px 25px;
+  padding: 12px 30px;
   font-size: 18px;
   margin: 15px;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 30px;
   border: none;
   transition: 0.3s;
 }
 
 #yesBtn {
-  background-color: #ff3366;
+  background: #ff3366;
   color: white;
 }
 
@@ -83,16 +96,16 @@ button {
 }
 
 #noBtn {
-  background-color: grey;
+  background: #999;
   color: white;
-  position: absolute;
+  position: relative;
 }
 
 #message {
-  font-size: 34px;
-  margin-top: 40px;
-  font-weight: bold;
+  font-family: 'Great Vibes', cursive;
+  font-size: 60px;
   color: #cc0052;
+  margin-top: 40px;
   display: none;
   animation: explode 1.2s ease-out forwards;
 }
@@ -111,44 +124,63 @@ button {
 <canvas id="fireworks"></canvas>
 
 <div class="container">
-<h1>🌹 Happy 9th Valentine Shiu 🌹</h1>
+<h1>Happy 9th Valentine Shiu 🌹</h1>
 
-<p id="dayCounter" style="font-size:22px; color:#660033;"></p>
+<h2 id="dayCounter"></h2>
 
 <h2>Will you always be my forever Valentine? 💘</h2>
 
 <button id="yesBtn" onclick="yesClicked()">Always Yes 😌</button>
-<button id="noBtn" onmouseover="moveButton()">No 😏</button>
+<button id="noBtn" onclick="handleNo()">No 😏</button>
 
-<div id="message">I LOVE YOU SHIU ❤️</div>
+<div id="message">I Love You Shiu ❤️</div>
 </div>
 
 <script>
 // DAY COUNTER
 const startDate = new Date("January 16, 2018");
 const today = new Date();
-const diffTime = today - startDate;
-const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+const diffDays = Math.floor((today - startDate) / (1000*60*60*24));
 document.getElementById("dayCounter").innerHTML =
   "We have been together for " + diffDays + " Beautiful Days 💖";
 
-// RUNNING NO BUTTON
-function moveButton() {
-  var button = document.getElementById("noBtn");
-  var x = Math.random() * (window.innerWidth - 100);
-  var y = Math.random() * (window.innerHeight - 100);
-  button.style.left = x + "px";
-  button.style.top = y + "px";
+// NO BUTTON LOGIC
+let noClickCount = 0;
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+
+function handleNo() {
+  noClickCount++;
+
+  const texts = [
+    "Are you sure?",
+    "Think again Shiu 😌",
+    "Really??",
+    "Wrong choice 😏",
+    "Nice try ❤️"
+  ];
+
+  noBtn.innerText = texts[noClickCount % texts.length];
+
+  noBtn.style.transform = `scale(${1 - noClickCount*0.1})`;
+
+  // Occasionally swap buttons
+  if (noClickCount % 2 === 0) {
+    let yesRect = yesBtn.getBoundingClientRect();
+    let noRect = noBtn.getBoundingClientRect();
+
+    yesBtn.style.position = "relative";
+    noBtn.style.position = "relative";
+
+    yesBtn.style.left = noRect.left - yesRect.left + "px";
+    noBtn.style.left = yesRect.left - noRect.left + "px";
+  }
 }
 
 // YES CLICKED
 function yesClicked() {
   document.body.classList.add("zoom");
-
-  setTimeout(() => {
-    document.body.classList.add("shake");
-  }, 300);
-
+  setTimeout(() => document.body.classList.add("shake"), 300);
   setTimeout(() => {
     document.getElementById("message").style.display = "block";
     startFireworks();
@@ -160,7 +192,6 @@ const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-
 let particles = [];
 
 function startFireworks() {
@@ -196,12 +227,9 @@ function animate() {
     ctx.fillStyle = p.color;
     ctx.fill();
 
-    if (p.radius < 0.5) {
-      particles.splice(index, 1);
-    }
+    if (p.radius < 0.5) particles.splice(index, 1);
   });
 }
-
 animate();
 </script>
 
